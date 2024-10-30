@@ -21,12 +21,12 @@ public:
 	/**
 	 * Get the x value
 	 */
-	int getX() { return x; };
+	int getX() const{ return x; };
 
 	/**
 	 * Get the y value
 	 */
-	int getY() { return y; };
+	int getY() const{ return y; };
 
 	/**
 	 * Return the distance between Points

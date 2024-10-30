@@ -2,67 +2,71 @@
 #include <array>
 #include "Snake.h"
 #include "TreeNode.cpp"
+#include <vector>
+#include <memory>
 
 using namespace std;
 
 const int width = 5, heigth = 5;
 
-int arr[5][5] = {
-    {1,1,1,1,1},
-    {1,0,0,0,1},
-    {1,1,1,0,1},
-    {1,0,0,0,1},
-    {1,1,1,1,1}
+vector<vector<char>> labyrinth = {
+        {' ', ' ', '#', ' ', ' '},
+        {'#', ' ', '#', ' ', '#'},
+        {' ', ' ', ' ', '#', ' '},
+        {'#', '#', ' ', ' ', ' '},
+        {' ', ' ', '#', '#', ' '}
 };
 
-TreeNode makeTree(TreeNode *TN) {
+const int ROW_DIRECTIONS[] = { -1, 1, 0, 0 };
+const int COL_DIRECTIONS[] = { 0, 0, -1, 1 };
 
-}
+std::shared_ptr<TreeNode> constructTree(vector<vector<char>>& labyrinth, Point start, Point end) {
+    if (start.getX() < 0 ||
+        start.getY() < 0 ||
+        start.getX() >= labyrinth.size() ||
+        start.getY() >= labyrinth[0].size() ||
+        labyrinth[start.getX()][start.getY()] == '#' ||
+        labyrinth[start.getX()][start.getY()] == '*') {
 
-Tree makeTreeOfArr(Point start)
-{
-    bool terminated = false;
-    Tree tree(start);
-    TreeNode X(start);
-    while (!terminated)
-    {
-        for (size_t i = 0; i < 4; i++)
-        {
-            int ax = tree.root->data.getX();
-            int ay = tree.root->data.getY();
-
-              if (!(ax < 1) && !(arr[ax - 1][ay] == 1))
-              {
-                  tree.root->addChild(&TreeNode(Point(ax - 1,ay)));
-              }
-              if (!(ax > width-1) && !(arr[ax + 1][ay] == 1))
-              {
-                  tree.root->addChild(&TreeNode(Point(ax + 1,ay)));
-              }
-              if (!(ax < 1) && !(arr[ax][ay - 1] == 1))
-              {
-                  tree.root->addChild(&TreeNode(Point(ax, ay - 1)));
-              }
-              if (!(ay > heigth - 1) && !(arr[ax][ay + 1] == 1))
-              {
-                  tree.root->addChild(&makeTree(tree.root));
-              }
-        }
-        
+        return nullptr;
     }
-    return tree;
-}
-Tree makePath(int arr[width][heigth], Point start, Point end) {
+    auto node = std::make_shared<TreeNode>(Point(start.getX(), start.getY()));
 
+    labyrinth[start.getX()][start.getY()] = '*';
+
+    if (start.getX() == end.getX() && start.getY() == end.getY()) {
+        return node;
+    }
+
+    for (int i = 0; i < 4; ++i) {
+        int newX = start.getX() + ROW_DIRECTIONS[i];
+        int newY = start.getY() + COL_DIRECTIONS[i];
+
+        // Recursively build the path tree
+        auto childNode = constructTree(labyrinth, Point(newX, newY), end);
+        if (childNode) {
+            node->addChild(childNode);
+        }
+    }
+
+    return !node->getChildren().empty() || (start.getX() == end.getX() && start.getY() == end.getY()) ? node : nullptr;
+}
+
+void printPath(std::shared_ptr<TreeNode> node) {
+    if (!node) return;
+    std::cout << "(" << node->getData().getX() << ", " << node->getData().getY() << ")";
+    if (!node->getChildren().empty()) {
+        std::cout << " -> ";
+        printPath(node->getChildren()[0]); // For simplicity, take the first path (DFS order)
+    }
 }
 
 int main() {
 
     Tree tree(Point(5,5));
-    //makeTreeOfArr(&arr[5][5], Point(1, 1))
-
-    //tree.printTree();
-
+    
+    auto path = constructTree(labyrinth, Point(0,0), Point(5,5));
+    printPath(path);
     
    
 

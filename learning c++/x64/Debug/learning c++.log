@@ -1,5 +1,8 @@
 ﻿  learning c++.cpp
-C:\Users\vodka\source\repos\learning c++\learning c++\Point.h(24,22): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\vodka\source\repos\learning c++\learning c++\Point.h(29,22): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\vodka\source\repos\learning c++\learning c++\learning c++.cpp(32,1): error C4716: 'makeTreeOfArr': must return a value
-C:\Users\vodka\source\repos\learning c++\learning c++\learning c++.cpp(35,1): error C4716: 'makePath': must return a value
+C:\Users\vodka\source\repos\learning c++\learning c++\Point.h(24,27): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
+C:\Users\vodka\source\repos\learning c++\learning c++\Point.h(29,27): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
+  TreeNode.cpp
+C:\Users\vodka\source\repos\learning c++\learning c++\Point.h(24,27): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
+C:\Users\vodka\source\repos\learning c++\learning c++\Point.h(29,27): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
+  Generating Code...
+  learning c++.vcxproj -> C:\Users\vodka\source\repos\learning c++\x64\Debug\learning c++.exe
